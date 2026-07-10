@@ -1,0 +1,13 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/contact/page": "/contact",
+  "/destinations/page": "/destinations",
+  "/packages/[slug]/page": "/packages/[slug]",
+  "/packages/page": "/packages",
+  "/page": "/",
+  "/resorts/[slug]/page": "/resorts/[slug]",
+  "/resorts/page": "/resorts",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml"
+}
