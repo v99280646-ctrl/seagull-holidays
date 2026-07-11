@@ -29,14 +29,12 @@ function Home() {
     <div>
       {/* Hero */}
       <section className="relative flex min-h-[88vh] items-center overflow-hidden">
-        <img
-          src={images.hero}
-          alt="Aerial view of Agatti island, Lakshadweep with turquoise lagoons"
-          width={1920}
-          height={1088}
-          className="absolute inset-0 h-full w-full object-cover"
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${images.hero})` }}
+          aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/55 to-slate-900/25" />
         <div className="relative mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-primary-foreground drop-shadow sm:text-5xl lg:text-6xl">

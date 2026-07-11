@@ -42,6 +42,14 @@ function parseDuration(duration?: string) {
   return { days: Number(match[1]), nights: Number(match[2]) };
 }
 
+function slugToTitle(slug: string) {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
 function normalizeItem(item: ApiItem, index: number): Package {
   const firstOption = item.packages?.[0];
   const fallback = fallbackPackages[index % fallbackPackages.length];
@@ -122,10 +130,28 @@ export async function getPackageDetail(serviceSlug: string): Promise<Package | n
 
     const payload = (await response.json()) as ApiResponse;
     const item = extractItems(payload)[0];
-    if (!item) return null;
+    if (!item) {
+      const fallback = fallbackPackages.find((pkg) => pkg.slug === serviceSlug);
+      if (fallback) return fallback;
+
+      return {
+        ...fallbackPackages[0],
+        slug: serviceSlug,
+        title: slugToTitle(serviceSlug),
+        summary: `Details for ${slugToTitle(serviceSlug)} are currently unavailable from the API.`,
+      };
+    }
 
     return normalizeItem(item, 0);
   } catch {
-    return null;
+    const fallback = fallbackPackages.find((pkg) => pkg.slug === serviceSlug);
+    if (fallback) return fallback;
+
+    return {
+      ...fallbackPackages[0],
+      slug: serviceSlug,
+      title: slugToTitle(serviceSlug),
+      summary: `Details for ${slugToTitle(serviceSlug)} are currently unavailable from the API.`,
+    };
   }
 }

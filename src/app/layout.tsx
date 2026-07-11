@@ -5,6 +5,7 @@ import "../styles.css";
 import { DesktopHeader, Header } from "@/components/site/Header";
 import { Footer, MobileFooterNav } from "@/components/site/Footer";
 import { QueryProvider } from "@/components/site/QueryProvider";
+import { PromoScrollBar } from "@/components/site/PromoScrollBar";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.seagulholidays.com"),
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="flex min-h-screen flex-col">
             <DesktopHeader />
             <Header />
+            <PromoScrollBar />
             <main className="flex-1 pb-20 md:pb-0">{children}</main>
             <MobileFooterNav />
             <Footer />

@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Calendar, Check, Clock, MapPin, Phone, Star } from "lucide-react";
+import { Check, Clock, MapPin, Phone, Star } from "lucide-react";
 import { packages as fallbackPackages, inr, site } from "@/data/site";
 import { getPackageDetail } from "@/lib/packages-api";
 import { imageSrc } from "@/lib/media";
+import { WhatsAppPackageRequest } from "@/components/site/WhatsAppPackageRequest";
 
-type PageProps = { params: { slug: string } };
+type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const pkg = (await getPackageDetail(slug)) ?? fallbackPackages.find((p) => p.slug === slug);
   if (!pkg) return { title: "Package not found | Seagull Holidays" };
   return {
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PackageDetailPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const pkg = (await getPackageDetail(slug)) ?? fallbackPackages.find((p) => p.slug === slug);
   if (!pkg) notFound();
 
@@ -80,27 +81,18 @@ export default async function PackageDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        <aside className="rounded-3xl border border-border/70 bg-card p-6 shadow-card">
-          <div className="flex items-end justify-between">
-            <div>
-              {pkg.oldPrice && <div className="text-sm text-muted-foreground line-through">{inr(pkg.oldPrice)}</div>}
-              <div className="text-3xl font-extrabold text-primary">{inr(pkg.price)}</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold">
-              <Star className="h-3.5 w-3.5 fill-gold text-gold" />{pkg.rating}
-            </span>
-          </div>
-          <a
-            href={`https://wa.me/919744779695?text=${encodeURIComponent(`Hi Seagull Holidays, I need details for ${pkg.title}.`)}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-green-600 px-5 py-3 font-semibold text-white hover:bg-green-700"
-          >
-            Request on WhatsApp
-          </a>
+        <aside className="space-y-4">
+          <WhatsAppPackageRequest
+            whatsappNumber="919744779695"
+            packageTitle={pkg.title}
+            packageLocation={pkg.location}
+            packagePrice={pkg.price}
+            packageOptions={packageOptions}
+          />
+
           <a
             href={`tel:${site.phones[1].replace(/\s/g, "")}`}
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-input px-5 py-3 font-semibold"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-input px-5 py-3 font-semibold"
           >
             <Phone className="h-4 w-4" /> Call to book
           </a>

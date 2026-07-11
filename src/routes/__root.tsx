@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header, DesktopHeader } from "../components/site/Header";
 import { Footer, MobileFooterNav } from "../components/site/Footer";
+import { PromoScrollBar } from "../components/site/PromoScrollBar";
 
 
 function NotFoundComponent() {
@@ -161,6 +162,7 @@ function RootComponent() {
       <div className="flex min-h-screen flex-col">
         <DesktopHeader />
         <Header />
+        <PromoScrollBar />
         <main className="flex-1 pb-20 md:pb-0">
           <Outlet />
         </main>

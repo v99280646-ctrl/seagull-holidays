@@ -6,6 +6,7 @@ import { destinations, resorts, site, images } from "@/data/site";
 import { ResortCard } from "@/components/site/ResortCard";
 import { DestinationCard } from "@/components/site/DestinationCard";
 import { ReelsMarquee } from "@/components/site/ReelsMarquee";
+import { ServiceMarquee } from "@/components/site/ServiceMarquee";
 import { PackagesGridClient } from "@/components/site/PackagesGridClient";
 import { imageSrc } from "@/lib/media";
 
@@ -18,11 +19,13 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div>
-      <section className="bg-gradient-hero py-16 text-ocean-foreground">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:px-8">
-          <div className="flex flex-col justify-center">
+      <section className="relative isolate flex min-h-[88vh] items-center overflow-hidden text-ocean-foreground">
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${imageSrc(images.hero)})` }} aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/55 to-slate-900/25" />
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="flex max-w-2xl flex-col justify-center">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-ocean-foreground/75">Seagull Holidays</p>
-            <h1 className="mt-4 max-w-2xl text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4 max-w-2xl text-4xl font-extrabold leading-tight drop-shadow-sm sm:text-5xl lg:text-6xl">
               Curated island holidays with seamless planning and premium stays.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ocean-foreground/85 sm:text-lg">
@@ -38,28 +41,11 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl shadow-card sm:row-span-2">
-              <img src={imageSrc(images.hero)} alt="Seagull Holidays hero" className="h-full w-full object-cover" />
-            </div>
-            <div className="rounded-3xl bg-card p-6 text-foreground shadow-card">
-              <p className="text-sm font-semibold text-primary">Why choose us</p>
-              <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-                <li>Domestic & international tours</li>
-                <li>Honeymoon & romantic getaways</li>
-                <li>Handpicked holidays and resort stays</li>
-                <li>Flight & hotel bookings</li>
-              </ul>
-            </div>
-            <div className="rounded-3xl bg-card p-6 text-foreground shadow-card">
-              <p className="text-sm font-semibold text-primary">Trusted support</p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Visa assistance, custom packages, family trips and round-the-clock guidance.
-              </p>
-            </div>
-          </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <ReelsMarquee />
       </section>
 
       <SectionTitle
@@ -69,8 +55,12 @@ export default function HomePage() {
         subtitle="Our most-loved packages, curated for beach lovers, honeymooners and adventurers."
       />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <PackagesGridClient limit={6} />
+        <PackagesGridClient limit={3} />
       </div>
+
+      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+        <ServiceMarquee />
+      </section>
 
       <SectionTitle
         title="Featured resorts"
@@ -79,7 +69,7 @@ export default function HomePage() {
         subtitle="From private atolls to Kerala's backwaters, find your perfect escape."
       />
       <Grid>
-        {resorts.slice(0, 6).map((resort) => (
+        {resorts.slice(0, 3).map((resort) => (
           <ResortCard key={resort.slug} resort={resort} />
         ))}
       </Grid>
@@ -91,15 +81,6 @@ export default function HomePage() {
         ))}
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold sm:text-3xl">Reels & Moments</h2>
-            <p className="mt-2 text-sm text-muted-foreground">Real snapshots from island journeys — scrolling on autopilot.</p>
-          </div>
-        </div>
-        <ReelsMarquee />
-      </section>
     </div>
   );
 }

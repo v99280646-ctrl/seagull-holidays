@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Calendar, Check, MapPin, Phone, Star, Users } from "lucide-react";
+import { Check, MapPin, Phone, Star } from "lucide-react";
 import { resorts as fallbackResorts, inr, site } from "@/data/site";
 import { getResortDetail } from "@/lib/resorts-api";
 import { imageSrc } from "@/lib/media";
+import { WhatsAppResortRequest } from "@/components/site/WhatsAppResortRequest";
 
-type PageProps = { params: { slug: string } };
+type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const resort = (await getResortDetail(slug)) ?? fallbackResorts.find((r) => r.slug === slug);
   if (!resort) return { title: "Resort not found | Seagull Holidays" };
   return {
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ResortDetailPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const resort = (await getResortDetail(slug)) ?? fallbackResorts.find((r) => r.slug === slug);
   if (!resort) notFound();
 
@@ -70,46 +71,18 @@ export default async function ResortDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        <aside className="rounded-3xl border border-border/70 bg-card p-6 shadow-card">
-          <div className="flex items-end justify-between">
-            <div>
-              <div className="text-3xl font-extrabold text-primary">{inr(resort.pricePerNight)}</div>
-              <div className="text-sm text-muted-foreground">/night</div>
-            </div>
-            <span className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold">
-              <Star className="h-3.5 w-3.5 fill-gold text-gold" />{resort.rating}
-            </span>
-          </div>
+        <aside className="space-y-4">
+          <WhatsAppResortRequest
+            whatsappNumber="919744779695"
+            resortName={resort.name}
+            resortLocation={resort.location}
+            pricePerNight={resort.pricePerNight}
+            options={options}
+          />
 
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            <label className="block text-sm font-medium">
-              <span className="mb-1 flex items-center gap-1 text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> Check-in</span>
-              <input type="date" className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
-            </label>
-            <label className="block text-sm font-medium">
-              <span className="mb-1 flex items-center gap-1 text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> Check-out</span>
-              <input type="date" className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" />
-            </label>
-          </div>
-          <label className="mt-4 block text-sm font-medium">
-            <span className="mb-1 flex items-center gap-1 text-muted-foreground"><Users className="h-4 w-4" /> Guests</span>
-            <select className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm">
-              {[1, 2, 3, 4, 5, 6].map((n) => (
-                <option key={n}>{n} guest{n > 1 ? "s" : ""}</option>
-              ))}
-            </select>
-          </label>
-          <a
-            href={`https://wa.me/919744779695?text=${encodeURIComponent(`Hi Seagull Holidays, I want to enquire about ${resort.name}.`)}`}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-green-600 px-5 py-3 font-semibold text-white hover:bg-green-700"
-          >
-            Check Availability on WhatsApp
-          </a>
           <a
             href={`tel:${site.phones[1].replace(/\s/g, "")}`}
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-input px-5 py-3 font-semibold"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-input px-5 py-3 font-semibold"
           >
             <Phone className="h-4 w-4" /> Call to book
           </a>
