@@ -6,7 +6,12 @@ const mobileNav = [
   { to: "/packages", label: "Packages", icon: Briefcase },
   { to: "/resorts", label: "Resorts", icon: Hotel },
   { to: "/contact", label: "Contact", icon: Mail },
-] as const;
+] as const satisfies ReadonlyArray<{
+  to: string;
+  label: string;
+  icon: typeof Home;
+  exact?: boolean;
+}>;
 
 export function MobileFooterNavBase({ activePath }: { activePath: string }) {
   const isActive = (to: string, exact?: boolean) => {
