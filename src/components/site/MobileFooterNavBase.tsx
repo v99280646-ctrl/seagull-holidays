@@ -3,9 +3,9 @@ import { Home, Briefcase, Hotel, Mail } from "lucide-react";
 
 const mobileNav = [
   { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/packages", label: "Packages", icon: Briefcase },
-  { to: "/resorts", label: "Resorts", icon: Hotel },
-  { to: "/contact", label: "Contact", icon: Mail },
+  { to: "/packages", label: "Packages", icon: Briefcase ,exact: false },
+  { to: "/resorts", label: "Resorts", icon: Hotel ,exact: false },
+  { to: "/contact", label: "Contact", icon: Mail , exact: false },
 ] as const satisfies ReadonlyArray<{
   to: string;
   label: string;
