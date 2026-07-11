@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home, MapPin, Phone, Mail, Clock, Briefcase, Hotel } from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { site } from "@/data/site";
 
 export function Footer() {
@@ -68,31 +68,5 @@ export function Footer() {
         </p>
       </div>
     </footer>
-  );
-}
-
-const mobileNav = [
-  { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/packages", label: "Packages", icon: Briefcase },
-  { to: "/resorts", label: "Resorts", icon: Hotel },
-  { to: "/contact", label: "Contact", icon: Mail },
-] as const;
-
-export function MobileFooterNav() {
-  return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background/95 px-2 py-2 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] backdrop-blur-md md:hidden">
-      <div className="mx-auto grid max-w-7xl grid-cols-4 gap-1">
-        {mobileNav.map((item) => (
-          <Link
-            key={item.to}
-            href={item.to}
-            className="flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-[11px] font-medium text-foreground/70 transition-colors hover:bg-secondary hover:text-primary"
-          >
-            <item.icon className="h-4 w-4" />
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </div>
-    </nav>
   );
 }

@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import "../styles.css";
 
 import { DesktopHeader, Header } from "@/components/site/Header";
-import { Footer, MobileFooterNav } from "@/components/site/Footer";
+import { Footer } from "@/components/site/Footer";
+import { MobileFooterNavClient } from "@/components/site/MobileFooterNavClient";
 import { QueryProvider } from "@/components/site/QueryProvider";
 import { PromoScrollBar } from "@/components/site/PromoScrollBar";
 
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Header />
             <PromoScrollBar />
             <main className="flex-1 pb-20 md:pb-0">{children}</main>
-            <MobileFooterNav />
+            <MobileFooterNavClient />
             <Footer />
           </div>
         </QueryProvider>

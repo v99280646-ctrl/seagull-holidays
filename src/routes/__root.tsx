@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,8 +13,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header, DesktopHeader } from "../components/site/Header";
-import { Footer, MobileFooterNav } from "../components/site/Footer";
+import { Footer } from "../components/site/Footer";
 import { PromoScrollBar } from "../components/site/PromoScrollBar";
+import { MobileFooterNavBase } from "../components/site/MobileFooterNavBase";
 
 
 function NotFoundComponent() {
@@ -155,6 +157,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -166,7 +169,7 @@ function RootComponent() {
         <main className="flex-1 pb-20 md:pb-0">
           <Outlet />
         </main>
-        <MobileFooterNav />
+        <MobileFooterNavBase activePath={location.pathname} />
         <Footer />
       </div>
     </QueryClientProvider>
